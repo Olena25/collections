@@ -1,9 +1,9 @@
 package com.intellias.collections;
 
 public interface Queue<E> {
-    void add(E e);
+    boolean add(E e);
 
-    boolean remove(E e);
+    E remove(E e);
 
     void clear();
 

@@ -24,25 +24,31 @@ public class MyQueue<E> implements Queue<E> {
     }
 
     @Override
-    public void add(E e) {
+    public boolean add(E e) {
         if (e == null) {
-            throw new NullPointerException("Can not add null element in queue");
+            return false;
         }
         size++;
+
         if (header == null) {
             header = new Node<>(e, null, null);
-            return;
+            return true;
         }
+
         Node<E> element = header.next;
+
         while (element.next != null) {
             element = element.next;
         }
+
         element.next = new Node<>(e, null, element);
+
+        return true;
     }
 
-    public boolean remove(E e) {
+    public E remove(E e) {
         if (e == null) {
-            throw new NullPointerException("Object cannot be null");
+            return null;
         }
 
         Node<E> element = header;
@@ -50,7 +56,7 @@ public class MyQueue<E> implements Queue<E> {
         if (header.element.equals(e)) {
             header = header.next;
 
-            return true;
+            return e;
         }
 
         while (element != null) {
@@ -58,12 +64,12 @@ public class MyQueue<E> implements Queue<E> {
                 replacePointers(element);
                 size--;
 
-                return true;
+                return e;
             }
             element = element.next;
         }
 
-        return false;
+        return null;
     }
 
     public void clear() {

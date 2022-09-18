@@ -21,20 +21,24 @@ public class MyStack<E> {
         }
     }
 
-    public void push(E e) {
+    public E push(E e) {
         if (e == null) {
-            throw new NullPointerException();
+            return null;
         }
         size++;
 
         header = new Node<>(e, header);
+
+        return e;
     }
 
-    public void remove(int index) {
+    public boolean remove(int index) {
         verifyIndex(index);
 
         if (index == 0) {
             header = header.next;
+
+            return true;
         }
 
         Node<E> element = header;
@@ -46,12 +50,15 @@ public class MyStack<E> {
         if (index == size - 1) {
             element.next = null;
             size--;
-            return;
+
+            return true;
         }
 
         Node<E> nextNode = element.next;
         element.next = nextNode.next;
         size--;
+
+        return true;
     }
 
     public void clear() {
