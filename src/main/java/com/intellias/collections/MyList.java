@@ -1,10 +1,13 @@
-package com.intellias;
+package com.intellias.collections;
 
 public interface MyList<E> {
-    void add(E e);
-    void remove(int index);
     E get(int index);
 
+    boolean add(E e);
+
+    E remove(int index);
+
     void clear();
+
     int size();
 }

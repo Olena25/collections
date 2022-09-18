@@ -1,4 +1,6 @@
-package com.intellias;
+package com.intellias.collections.impl;
+
+import com.intellias.collections.MyList;
 
 import java.util.Arrays;
 
@@ -19,7 +21,7 @@ public class MyArrayList<E> implements MyList<E> {
     }
 
     public void clear() {
-        Arrays.fill(array, null);
+        array = (E[]) new Object[INITIAL_CAPACITY];
         currentSize = 0;
         threshold = (int) (INITIAL_CAPACITY * LOAD_FACTOR);
     }
@@ -33,18 +35,22 @@ public class MyArrayList<E> implements MyList<E> {
         return array[index];
     }
 
-    public void add(E e) {
+    public boolean add(E e) {
         array[currentSize] = e;
         currentSize++;
+
 
         if (currentSize == threshold) {
             rebuild();
         }
+        return true;
     }
 
-    public void remove(int index) {
+    public E remove(int index) {
         checkIndex(index);
         E[] newArray = (E[]) new Object[array.length - 1];
+
+        E removedElement = array[index];
 
         for (int i = 0; i < newArray.length; i++) {
             if (i >= index) {
@@ -56,6 +62,8 @@ public class MyArrayList<E> implements MyList<E> {
 
         array = newArray;
         currentSize--;
+
+        return removedElement;
     }
 
     private void rebuild() {
@@ -71,6 +79,11 @@ public class MyArrayList<E> implements MyList<E> {
         array = newArray;
     }
 
+    @Override
+    public String toString() {
+        return Arrays.toString(array);
+    }
+
     private void checkIndex(int index) {
         if (index < 0) {
             throw new IllegalArgumentException("Index cannot be negative");
@@ -78,17 +91,6 @@ public class MyArrayList<E> implements MyList<E> {
         if (index > currentSize) {
             throw new IndexOutOfBoundsException("Current list size is " + currentSize);
         }
-    }
-
-    public static void main(String[] args) {
-        MyList<String> stringMyList = new MyArrayList<>();
-        stringMyList.add("k");
-        stringMyList.add("m");
-        stringMyList.add("c");
-        System.out.println(stringMyList.get(1));
-        System.out.println(stringMyList.size());
-        stringMyList.clear();
-        System.out.println(stringMyList.get(0));
 
     }
 }
